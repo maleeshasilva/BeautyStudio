@@ -1,139 +1,69 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
-
-// formik
-import { Formik } from 'formik';
-
 import {
-  StyledContainer,
-  PageLogo,
+  Avatar,
+  WelcomeImage,
   PageTitle,
   SubTitle,
-  StyledInputLabel,
   StyledFormArea,
   StyledButton,
-  StyledTextInput,
-  LeftIcon,
-  RightIcon,
   InnerContainer,
+  WelcomeContainer,
   ButtonText,
-  MsgBox,
   Line,
-  ExtraView,
-  ExtraText,
-  TextLink,
-  TextLinkContent,
-  Colors,
 } from './../components/styles';
 
-import { View, ActivityIndicator } from 'react-native';
+// Async storage
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//colors
-const { darkLight, brand, primary } = Colors;
+// credentials context
+import { CredentialsContext } from './../components/CredentialsContext';
 
-// icon
-import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
+const Welcome = () => {
+  // credentials context
+  const { storedCredentials, setStoredCredentials } = useContext(CredentialsContext);
 
-// keyboard avoiding view
-//import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+  const { name, email, photoUrl } = storedCredentials;
+
+  const AvatarImg = photoUrl
+    ? {
+        uri: photoUrl,
+      }
+    : require('./../assets/img/99.png');
+
+  const clearLogin = () => {
+    AsyncStorage.removeItem('flowerCribCredentials')
+      .then(() => {
+        setStoredCredentials("");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  return (
+    <>
+      <StatusBar style="light" />
+      <InnerContainer>
+        <WelcomeImage resizeMode="cover" source={require('./../assets/img/expo-bg2.png')} />
+
+        <WelcomeContainer>
+          <PageTitle welcome={true}>Welcome Beauty,</PageTitle>
+          <SubTitle welcome={true}>{name || 'Olga Simpson'}</SubTitle>
+          <SubTitle welcome={true}>{email || 'olgasimp@gmail.com'}</SubTitle>
 
 
+          <StyledFormArea>
+            <Avatar resizeMode="cover" source={AvatarImg} />
 
-const   Login=()=>{
-  const [hidePassword, setHidePassword] = useState(true);
-  const [message, setMessage] = useState();
-  const [messageType, setMessageType] = useState();
-    return(
-        <StyledContainer>
-             <StatusBar style="dark" />
-            <InnerContainer>
-            <PageLogo resizeMode="cover" source={require('./../assets/img/99.png')} />
-              <SubTitle>Account Login</SubTitle>
-            <Formik
-                initialValues={{ email: '', password: '' }}
-                onSubmit={(values) => {
-                console.log(values);
-            }}
-            > 
-            {({ handleChange, handleBlur, handleSubmit, values})=>( 
-                <StyledFormArea>
-                <MyTextInput
-                  label="Email Address"
-                  icon="mail"
-                  placeholder="Enter the Email"
-                  placeholderTextColor={darkLight}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  keyboardType="email-address"                 
-                />
-
-                <MyTextInput
-                  label="Password"
-                  placeholder="* * * * * * * *"
-                  placeholderTextColor={darkLight}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  secureTextEntry={hidePassword}
-                  icon="lock"
-                  isPassword={true}
-                  hidePassword={hidePassword}
-                  setHidePassword={setHidePassword}
-                  
-                />
-                <MsgBox>...</MsgBox>
-                <StyledButton onPress={handleSubmit}>
-                  <ButtonText>
-                    Login
-                  </ButtonText>
-                </StyledButton>
-
-                <StyledButton google={true} onPress={handleSubmit}>
-                    <Fontisto name="google" size={25} color={primary}/>
-                    <ButtonText>    </ButtonText>
-                    <ButtonText >
-                    Sign in with Google
-                    </ButtonText>
-                 </StyledButton>
-
-                 <ExtraView>
-                  <ExtraText>Don't have an account already? </ExtraText>
-                  <TextLink onPress={() => navigation.navigate('Signup')}>
-                    <TextLinkContent>Signup</TextLinkContent>
-                  </TextLink>
-                </ExtraView>
-              
-            </StyledFormArea>
-            )}
-            </Formik>          
-            </InnerContainer>
-        </StyledContainer>
-    );
+            <Line />
+            <StyledButton onPress={clearLogin}>
+              <ButtonText>Logout</ButtonText>
+            </StyledButton>
+          </StyledFormArea>
+        </WelcomeContainer>
+      </InnerContainer>
+    </>
+  );
 };
 
-
-const MyTextInput = ({ label, icon,isPassword,hidePassword,setHidePassword, ...props }) => {
-    return (
-      <View>
-        <LeftIcon>
-          <Octicons name={icon} size={30} color={brand} />
-        </LeftIcon>
-        <StyledInputLabel>{label}</StyledInputLabel>
-        <StyledTextInput{...props}/>
-        {isPassword &&(
-          <RightIcon
-          onPress={() => {
-            setHidePassword(!hidePassword);
-          }}
-        >
-          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
-          </RightIcon>
-        )}
-        
-      </View>
-    );
-  };
-  
-export default Login;
+export default Welcome;
