@@ -42,13 +42,14 @@ import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
 
 const   Login=()=>{
   const [hidePassword, setHidePassword] = useState(true);
+  const [message, setMessage] = useState();
+  const [messageType, setMessageType] = useState();
     return(
         <StyledContainer>
              <StatusBar style="dark" />
             <InnerContainer>
             <PageLogo resizeMode="cover" source={require('./../assets/img/99.png')} />
-            <PageTitle>Beauty Studio</PageTitle>
-            <SubTitle>Account Login</SubTitle>
+              <SubTitle>Account Login</SubTitle>
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values) => {
@@ -82,6 +83,27 @@ const   Login=()=>{
                   setHidePassword={setHidePassword}
                   
                 />
+                <MsgBox>...</MsgBox>
+                <StyledButton onPress={handleSubmit}>
+                  <ButtonText>
+                    Login
+                  </ButtonText>
+                </StyledButton>
+
+                <StyledButton google={true} onPress={handleSubmit}>
+                    <Fontisto name="google" size={25} color={primary}/>
+                    <ButtonText>    </ButtonText>
+                    <ButtonText >
+                    Sign in with Google
+                    </ButtonText>
+                 </StyledButton>
+
+                 <ExtraView>
+                  <ExtraText>Don't have an account already? </ExtraText>
+                  <TextLink onPress={() => navigation.navigate('Signup')}>
+                    <TextLinkContent>Signup</TextLinkContent>
+                  </TextLink>
+                </ExtraView>
               
             </StyledFormArea>
             )}

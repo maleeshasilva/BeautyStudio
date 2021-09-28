@@ -126,8 +126,7 @@ export const StyledButton = styled.TouchableOpacity`
   margin-vertical: 5px;
   height: 60px;
   ${(props) =>
-    props.google == true &&
-    `
+    props.google == true &&`
     background-color: ${green};
     flex-direction: row;
     justify-content: center;
@@ -137,9 +136,9 @@ export const StyledButton = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   color: ${primary};
   font-size: 16px;
+
   ${(props) =>
-    props.google == true &&
-    `
+    props.google == true && `
     color: ${primary};
     padding: 25px;
   `}
