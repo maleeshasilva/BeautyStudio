@@ -36,7 +36,7 @@ const { darkLight, brand, primary } = Colors;
 import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
 
 // keyboard avoiding view
-//import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 
 
@@ -45,6 +45,7 @@ const   Login=()=>{
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
     return(
+      <KeyboardAvoidingWrapper>
         <StyledContainer>
              <StatusBar style="dark" />
             <InnerContainer>
@@ -106,10 +107,12 @@ const   Login=()=>{
                 </ExtraView>
               
             </StyledFormArea>
+            
             )}
             </Formik>          
             </InnerContainer>
         </StyledContainer>
+        </KeyboardAvoidingWrapper>
     );
 };
 
