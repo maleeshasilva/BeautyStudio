@@ -41,46 +41,77 @@ import { Octicons, Fontisto, Ionicons } from '@expo/vector-icons';
 
 
 const   Login=()=>{
+  const [hidePassword, setHidePassword] = useState(true);
     return(
         <StyledContainer>
              <StatusBar style="dark" />
             <InnerContainer>
-            <PageLogo resizeMode="cover" source={require('./../assets/img/expo-bg1.png')} />
+            <PageLogo resizeMode="cover" source={require('./../assets/img/99.png')} />
             <PageTitle>Beauty Studio</PageTitle>
             <SubTitle>Account Login</SubTitle>
-            <formik
+            <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values) => {
                 console.log(values);
             }}
             > 
-            {({ handleChange, handleBlur, handleSubmit, values})=> <StyledFormArea>
-                <MyTextInput>
-                    label="Email Address"
-                    icon="email"
-                    placeholder="Enter your Email"
-                    placeholderTextColor={darkLight}
-                    onChangeText={handleChange('email')}
-                    onBlur={handleBlur('email')}
-                    value={values.email}
-                    keyboardType="email-address"
-                </MyTextInput>
-            </StyledFormArea>}
-            </formik>          
+            {({ handleChange, handleBlur, handleSubmit, values})=>( 
+                <StyledFormArea>
+                <MyTextInput
+                  label="Email Address"
+                  icon="mail"
+                  placeholder="Enter the Email"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  keyboardType="email-address"                 
+                />
+
+                <MyTextInput
+                  label="Password"
+                  placeholder="* * * * * * * *"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={hidePassword}
+                  icon="lock"
+                  isPassword={true}
+                  hidePassword={hidePassword}
+                  setHidePassword={setHidePassword}
+                  
+                />
+              
+            </StyledFormArea>
+            )}
+            </Formik>          
             </InnerContainer>
         </StyledContainer>
     );
 };
 
-const MyTextInput =({label,icon, ...props})=>{
-    return(
-       <View>
+
+const MyTextInput = ({ label, icon,isPassword,hidePassword,setHidePassword, ...props }) => {
+    return (
+      <View>
         <LeftIcon>
-            <Octicons name={icon} size={30} color={brand}/>
+          <Octicons name={icon} size={30} color={brand} />
         </LeftIcon>
         <StyledInputLabel>{label}</StyledInputLabel>
-
-       </View>
+        <StyledTextInput{...props}/>
+        {isPassword &&(
+          <RightIcon
+          onPress={() => {
+            setHidePassword(!hidePassword);
+          }}
+        >
+          <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
+          </RightIcon>
+        )}
+        
+      </View>
     );
-}
+  };
+  
 export default Login;
