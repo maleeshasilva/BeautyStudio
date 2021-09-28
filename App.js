@@ -8,7 +8,7 @@ import Welcome from './screens/Welcome';
 
 export default function App() {
   return (
-    <Signup/>
+    <Welcome/>
   );
 }
 
