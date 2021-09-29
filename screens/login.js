@@ -40,7 +40,7 @@ import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 
 
-const   Login=()=>{
+const   Login=({navigation})=>{
   const [hidePassword, setHidePassword] = useState(true);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
@@ -55,6 +55,7 @@ const   Login=()=>{
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values) => {
                 console.log(values);
+                navigation.navigate("Welcome");
             }}
             > 
             {({ handleChange, handleBlur, handleSubmit, values})=>( 

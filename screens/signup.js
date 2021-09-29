@@ -40,7 +40,7 @@ import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 
 
-const   SignUp=()=>{
+const   SignUp=({navigation})=>{
   const [hidePassword, setHidePassword] = useState(true);
   const [message, setMessage] = useState();
   const [messageType, setMessageType] = useState();
@@ -124,8 +124,8 @@ const   SignUp=()=>{
                   </ButtonText>
                 </StyledButton>
 
-                 <ExtraView>
-                  <ExtraText>Already Have an Account? </ExtraText>
+                <ExtraView>
+                  <ExtraText>Don't have an account already? </ExtraText>
                   <TextLink onPress={() => navigation.navigate('Login')}>
                     <TextLinkContent>Login</TextLinkContent>
                   </TextLink>
